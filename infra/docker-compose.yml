@@ -1,0 +1,28 @@
+
+services:
+  backend:
+    build: ../backend
+    ports:
+      - "8000:8000"
+    env_file:
+      - ../backend/.env
+    depends_on:
+      - db
+      - redis
+
+  db:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_DB: sundaydb
+      POSTGRES_USER: sunday_user
+      POSTGRES_PASSWORD: 240925sd
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7
+    restart: always
+
+volumes:
+  postgres_data:
