@@ -1,18 +1,21 @@
+import { useEffect, useState } from 'react';
+
 function App() {
+  const [status, setStatus] = useState('');
+
+  useEffect(() => {
+    fetch('http://127.0.0.1:8000/api/status')
+      .then(res => res.json())
+      .then(data => setStatus(data.message))
+      .catch(err => console.error('Error al conectar con el backend:', err));
+  }, []);
 
   return (
-    <>
-      <div className="bg-gray-50 p-4 rounded-lg">
-        <h3 className="text-lg font-bold mb-2">Historial</h3>
-        <div className="space-y-1 text-sm text-red-700">
-          <p>🗓️ “Abrir calendario”</p>
-          <p>📁 “Mover archivo a carpeta proyectos”</p>
-          <p>🧠 “¿Qué es la ley de Moore?”</p>
-        </div>
-      </div>
-
-    </>
-  )
+    <div className="p-6">
+      <h1 className="text-2xl font-bold">Estado del backend:</h1>
+      <p className="mt-2 text-blue-600">{status}</p>
+    </div>
+  );
 }
 
-export default App
+export default App;
